@@ -1,5 +1,5 @@
 from dotenv import main
-from qrcode_generator import create_qrcode
+from qrcode_generator import create_qrcode, IMG_OUTPUT_PATH
 from flask import Flask, request
 from flask_bootstrap import Bootstrap
 from flask.templating import render_template
@@ -13,6 +13,9 @@ load_dotenv()
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 bootstrap = Bootstrap(app)
+
+if not os.path.exists(IMG_OUTPUT_PATH):
+    os.mkdir(IMG_OUTPUT_PATH)
 
 @app.route('/', methods=['POST', 'GET'])
 def homepage():
