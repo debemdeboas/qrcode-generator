@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>welcome to the simple and effective qrcode generator (<a href="https://en.wikipedia.org/wiki/KISS_principle">KISS principle</a>)</h1>
+    <form action="{{ url_for('generate_qrcode') }}" method="POST">
+        {{ wtf.form_field(form.content) }}
+        <input class="btn btn-primary" type="submit" value="Generate!">
+    </form>
+</div>
+{% endblock %}
