@@ -27,12 +27,21 @@ if not os.path.exists(IMG_OUTPUT_PATH):
 
 @app.route('/', methods=['POST', 'GET'])
 def homepage():
-    return render_template('index.html', title='QRCode Generator', form=QRCodeForm())
+    return render_template(
+        'index.html',
+        title='QRCode Generator',
+        form=QRCodeForm())
+
 
 @app.route('/generate_qrcode', methods=['POST'])
 def generate_qrcode():
     img_path = create_qrcode(request.form['content'])
-    return render_template('generate_qrcode.html', title='generated QRCode', img=img_path, content=request.form['content'])
+    return render_template(
+        'generate_qrcode.html',
+        title='generated QRCode',
+        img=img_path,
+        content=request.form['content'])
+
 
 #
 # Run!

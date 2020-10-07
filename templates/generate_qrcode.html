@@ -1,10 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container">
-    <div class="container">
+<div class="container text-center">
+    <div class="container" style="padding: 7px;">
         <img src="{{ img }}" alt="QRCode for '{{ content }}'" width="100%">
     </div>
-    <a class="btn btn-primary" href="{{ url_for('homepage') }}" role="button">Generate another!</a>
+
+    <div class="container">
+        <a class="btn btn-primary" href="{{ url_for('homepage') }}" role="button">Generate another</a>
+        <a class="btn btn-primary" href="{{ img }}" role="button" download="QRCode.svg"><i class="fa fa-download"></i> Download</a>
+    </div>
 </div>
 {% endblock %}
