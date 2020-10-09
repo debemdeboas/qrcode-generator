@@ -11,7 +11,7 @@ from qrcode_generator import create_qrcode, IMG_OUTPUT_PATH
 # Setup
 #
 
-load_dotenv()         # Load environment variables
+load_dotenv()  # Load environment variables
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
