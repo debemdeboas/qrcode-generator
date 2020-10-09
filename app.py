@@ -11,14 +11,14 @@ from qrcode_generator import create_qrcode, IMG_OUTPUT_PATH
 # Setup
 #
 
-load_dotenv()
+load_dotenv()         # Load environment variables
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 bootstrap = Bootstrap(app)
 
-if not os.path.exists(IMG_OUTPUT_PATH):
-    os.mkdir(IMG_OUTPUT_PATH)
+if not os.path.exists(IMG_OUTPUT_PATH): # 
+    os.mkdir(IMG_OUTPUT_PATH)           # Creates file path to output image, if not already existent
 
 
 #
@@ -27,6 +27,10 @@ if not os.path.exists(IMG_OUTPUT_PATH):
 
 @app.route('/', methods=['POST', 'GET'])
 def homepage():
+    """
+    Renders application homepage from HTML file.
+    
+    """
     return render_template(
         'index.html',
         title='QRCode Generator',
@@ -35,6 +39,10 @@ def homepage():
 
 @app.route('/generate_qrcode', methods=['POST'])
 def generate_qrcode():
+    """
+    Renders the generated QR code and prompts the user to download it or generate another.
+    
+    """
     img_path = create_qrcode(request.form['content'])
     return render_template(
         'generate_qrcode.html',
