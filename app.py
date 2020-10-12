@@ -17,7 +17,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 bootstrap = Bootstrap(app)
 
-if not os.path.exists(IMG_OUTPUT_PATH): # 
+if not os.path.exists(IMG_OUTPUT_PATH):
     os.mkdir(IMG_OUTPUT_PATH)  # Creates file path to output image, if not already existent
 
 
