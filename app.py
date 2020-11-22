@@ -6,6 +6,7 @@ from flask_bootstrap  import Bootstrap
 from flask.templating import render_template
 from forms            import QRCodeForm
 from qrcode_generator import create_qrcode, IMG_OUTPUT_PATH
+from waitress         import serve
 
 #
 # Setup
@@ -14,7 +15,8 @@ from qrcode_generator import create_qrcode, IMG_OUTPUT_PATH
 load_dotenv()  # Load environment variables
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+#app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
+app.config['SECRET_KEY'] = os.urandom(32)
 bootstrap = Bootstrap(app)
 
 if not os.path.exists(IMG_OUTPUT_PATH):
@@ -56,4 +58,5 @@ def generate_qrcode():
 #
 
 if __name__ == "__main__":
-    app.run(threaded=True, port=9691, host='0.0.0.0')
+    #app.run(threaded=True, port=9691)
+    serve(app, port=9691, host='0.0.0.0', url_scheme='https')
