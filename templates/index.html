@@ -1,11 +1,83 @@
 {% extends "base.html" %}
 
+{% block scripts %}
+{{ super() }}
+{{ datepicker.loader(theme='ui-darkness') }}
+{{ datepicker.picker(id='.dtpicker', dateFormat='dd/mm/yy') }}
+<script>
+    function show(id) {
+        {% for _, form_type, _ in forms %}
+        document.getElementById('{{ form_type }}').style.display = 'block';
+        {% endfor %}
+        document.getElementById(id).style.display = 'none';
+    }
+    function hide(id) {
+        {% for _, form_type, _ in forms %}
+        document.getElementById('{{ form_type }}').style.display = 'none';
+        {% endfor %}
+        document.getElementById(id).style.display = 'block';
+    }
+    function radio_toggle(id) {
+        if (this.checked == true) {
+            show(id);
+        } else {
+            hide(id);
+        }
+    }
+</script>
+{% endblock %}
+
 {% block content %}
 <div class="container">
-    <h1>welcome to the simple and effective qrcode generator (<a href="https://en.wikipedia.org/wiki/KISS_principle">KISS principle</a>)</h1>
-    <form action="{{ url_for('generate_qrcode') }}" method="POST">
-        {{ wtf.form_field(form.content) }}
-        <input class="btn btn-primary" type="submit" value="Generate!">
-    </form>
+    <h1>welcome to the simple and effective qrcode generator (<a
+            href="https://en.wikipedia.org/wiki/KISS_principle">KISS principle</a>)</h1>
+
+    <div class="container">
+        {% for _, form_type, readable_name in forms %}
+        <input {% if form_type == forms[0][1] %}checked="true" {% endif %} type="radio" id="radio_{{ form_type }}"
+            onclick="radio_toggle('{{ form_type }}')" name="form_select">
+        <label for="radio_{{ form_type }}">{{ readable_name }}&ensp;</label>
+        {% endfor %}
+    </div>
+
+    {% for form, form_type, _ in forms %}
+    <div id="{{ form_type }}" class="container"
+        style="display: {% if form_type == forms[0][1] %}block{% else %}none{% endif %};">
+        <form action="{{ url_for('generate_qrcode') }}" method="POST">
+            {% for field in form %}
+            {% if field.type == 'RadioField' %}
+            {% for r in field %}
+            <tr>
+                <td>{{ r }}</td>
+                <td>{{ r.label }}</td>
+                &ensp;
+            </tr>
+            {% endfor %}
+
+            {% elif 'dtpicker' in field | string %}
+            <br>
+            {{ field.label }}
+            {{ field(class='dtpicker form-control', placeholder='day/month/year') }}
+
+            {% elif field.type == 'TimeField' %}
+            <td>{{ field.label }}</td>
+            &nbsp;
+            <td>{{ field(type='time') }}</td>
+            &nbsp;
+            &nbsp;
+
+            {% elif field.type != 'CSRFTokenField' %}
+            {{ wtf.form_field(field) }}
+            {% endif %}
+            {% endfor %}
+            <div>
+                <br>
+                <input name="form_type" type="hidden" value="{{ form_type }}">
+                <input class="btn btn-primary" type="submit" value="Generate!">
+            </div>
+        </form>
+    </div>
+    {% endfor %}
+
 </div>
 {% endblock %}

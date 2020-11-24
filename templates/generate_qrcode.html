@@ -2,13 +2,13 @@
 
 {% block content %}
 <div class="container text-center">
-    <div class="container" style="padding: 7px;">
-        <img src="{{ img }}" alt="QRCode for '{{ content }}'" width="100%">
+    <div class="container" style="padding: -1px;">
+        <img src="{{ img + '.svg' }}" alt="QRCode for '{{ content }}'" width="75%">
     </div>
-
+    <br>
     <div class="container">
         <a class="btn btn-primary" href="{{ url_for('homepage') }}" role="button">Generate another</a>
-        <a class="btn btn-primary" href="{{ img }}" role="button" download="QRCode.svg"><i class="fa fa-download"></i> Download</a>
+        <a class="btn btn-primary" href="{{ img + '.png' }}" role="button"><i class="fa fa-download"></i> Download</a>
     </div>
 </div>
 {% endblock %}

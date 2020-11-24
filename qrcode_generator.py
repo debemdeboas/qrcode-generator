@@ -45,12 +45,16 @@ def create_qrcode(content, error='H'):
     """
     filename = IMG_OUTPUT_PATH \
         + hashlib.sha256(
-            f'{content}_{datetime.now()}'.encode('utf-8')).hexdigest() \
-        + '.svg'
+            f'{content}_{datetime.now()}'.encode('utf-8')).hexdigest()
 
-    generate_qrcode_image(content, error).save(
-        filename,
-        scale=10,
-        light='white',
-        dark='black')
+    qr = generate_qrcode_image(content, error)
+
+    for ext in ['.svg', '.png']:
+        qr.save(
+            filename + ext,
+            scale=200,
+            border=1,
+            light='white',
+            dark='black')
+
     return filename
